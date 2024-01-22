@@ -61,7 +61,9 @@ const ImageWrapper = styled.div`
   position: relative;
 `;
 
-const Image = styled.img``;
+const Image = styled.img`
+  max-width: 100%;
+`;
 
 const Row = styled.div`
   font-size: 1rem;
