@@ -40,11 +40,17 @@ const ShoeCard = ({
         <Spacer size={12} />
         <Row>
           <Name>{name}</Name>
-          <Price>{formatPrice(price)}</Price>
+          <Price color={variant === 'on-sale' ? COLORS.gray[700] : undefined }
+                 textDecoration={variant === 'on-sale' ? 'line-through' : undefined}>
+            {formatPrice(price)}
+          </Price>
         </Row>
         <Row>
           <ColorInfo>{pluralize('Color', numOfColors)}</ColorInfo>
+          {variant === 'on-sale' && <SalePrice>{formatPrice(salePrice)}</SalePrice>}
         </Row>
+        {variant === 'on-sale' && <SaleTag> Sale </SaleTag>}
+        {variant === 'new-release' && <NewTag> Just Released! </NewTag>}
       </Wrapper>
     </Link>
   );
@@ -55,7 +61,9 @@ const Link = styled.a`
   color: inherit;
 `;
 
-const Wrapper = styled.article``;
+const Wrapper = styled.article`
+  position: relative;
+`;
 
 const ImageWrapper = styled.div`
   position: relative;
@@ -63,10 +71,13 @@ const ImageWrapper = styled.div`
 
 const Image = styled.img`
   max-width: 100%;
+  border-radius: 16px 4px;
 `;
 
 const Row = styled.div`
   font-size: 1rem;
+  display: flex;
+  justify-content: space-between;
 `;
 
 const Name = styled.h3`
@@ -74,7 +85,10 @@ const Name = styled.h3`
   color: ${COLORS.gray[900]};
 `;
 
-const Price = styled.span``;
+const Price = styled.span`
+  text-decoration: ${(props)=> props.textDecoration};
+  color: ${(props) => props.color};
+`;
 
 const ColorInfo = styled.p`
   color: ${COLORS.gray[700]};
@@ -83,6 +97,26 @@ const ColorInfo = styled.p`
 const SalePrice = styled.span`
   font-weight: ${WEIGHTS.medium};
   color: ${COLORS.primary};
+`;
+
+const BaseTag = styled.span`
+position: absolute;
+top: 12px;
+right: -4px;
+height: 32px;
+line-height: 32px;
+padding: 0 10px;
+font-size: ${14 / 16}rem;
+font-weight: ${WEIGHTS.bold};
+color: ${COLORS.white};
+border-radius: 2px;
+`;
+
+const SaleTag = styled(BaseTag)`
+  background-color: ${COLORS.primary};
+`;
+const NewTag = styled(BaseTag)`
+  background-color: ${COLORS.secondary};
 `;
 
 export default ShoeCard;
